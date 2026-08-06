@@ -1,9 +1,10 @@
 import paho.mqtt.client as mqtt
 import random, time
 import json
+import os
 
-MQTT_BROKER = "mosquitto"
-MQTT_PORT = 1883
+MQTT_BROKER = os.getenv("MQTT_BROKER", "localhost")
+MQTT_PORT = int(os.getenv("MQTT_PORT", 1883))
 TOPIC_JOYSTICK = 'sensor/controller/joystick'  # 1 topic voor alles
 TOPIC_BUTTONS = 'sensor/controller/buttons'
 
