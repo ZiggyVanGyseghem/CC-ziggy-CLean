@@ -1,0 +1,271 @@
+{
+  "meta": {
+    "version": "1",
+    "type": "dashboard",
+    "name": "Sensor Gateway Dashboard",
+    "description": "Dashboard for sensor values and moving averages"
+  },
+  "content": {
+    "data": {
+      "type": "dashboard",
+      "attributes": {
+        "name": "Sensor Gateway Dashboard",
+        "description": "Dashboard for sensor values and moving averages"
+      },
+      "relationships": {
+        "label": {
+          "data": []
+        },
+        "cell": {
+          "data": []
+        }
+      }
+    },
+    "included": [
+      {
+        "type": "cell",
+        "attributes": {
+          "x": 0,
+          "y": 0,
+          "w": 4,
+          "h": 4,
+          "name": "Joystick Position (X/Y)"
+        },
+        "relationships": {
+          "view": {
+            "data": {
+              "type": "view",
+              "id": "view-joystick-xy"
+            }
+          }
+        }
+      },
+      {
+        "id": "view-joystick-xy",
+        "type": "view",
+        "attributes": {
+          "name": "Joystick Position (X/Y)",
+          "properties": {
+            "shape": "chronograf-v2",
+            "queries": [
+              {
+                "text": "from(bucket: \"sensor_data\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"joystick\")\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
+                "editMode": "advanced",
+                "name": "",
+                "builderConfig": {
+                  "buckets": [],
+                  "tags": [],
+                  "functions": []
+                }
+              }
+            ],
+            "axes": {
+              "x": {
+                "bounds": ["", ""],
+                "label": "",
+                "prefix": "",
+                "suffix": "",
+                "base": "10",
+                "scale": "linear"
+              },
+              "y": {
+                "bounds": ["", ""],
+                "label": "",
+                "prefix": "",
+                "suffix": "",
+                "base": "10",
+                "scale": "linear"
+              }
+            },
+            "type": "xy",
+            "legend": {},
+            "geom": "line"
+          }
+        }
+      },
+      {
+        "type": "cell",
+        "attributes": {
+          "x": 4,
+          "y": 0,
+          "w": 4,
+          "h": 4,
+          "name": "Button Presses"
+        },
+        "relationships": {
+          "view": {
+            "data": {
+              "type": "view",
+              "id": "view-buttons"
+            }
+          }
+        }
+      },
+      {
+        "id": "view-buttons",
+        "type": "view",
+        "attributes": {
+          "name": "Button Presses",
+          "properties": {
+            "shape": "chronograf-v2",
+            "queries": [
+              {
+                "text": "from(bucket: \"sensor_data\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"buttons\")\n  |> filter(fn: (r) => r[\"_field\"] == \"pressed_count\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
+                "editMode": "advanced",
+                "name": "",
+                "builderConfig": {
+                  "buckets": [],
+                  "tags": [],
+                  "functions": []
+                }
+              }
+            ],
+            "axes": {
+              "x": {
+                "bounds": ["", ""],
+                "label": "",
+                "prefix": "",
+                "suffix": "",
+                "base": "10",
+                "scale": "linear"
+              },
+              "y": {
+                "bounds": ["", ""],
+                "label": "",
+                "prefix": "",
+                "suffix": "",
+                "base": "10",
+                "scale": "linear"
+              }
+            },
+            "type": "xy",
+            "legend": {},
+            "geom": "line"
+          }
+        }
+      },
+      {
+        "type": "cell",
+        "attributes": {
+          "x": 0,
+          "y": 4,
+          "w": 4,
+          "h": 4,
+          "name": "Joystick Magnitude (1h Mean)"
+        },
+        "relationships": {
+          "view": {
+            "data": {
+              "type": "view",
+              "id": "view-magnitude-1h"
+            }
+          }
+        }
+      },
+      {
+        "id": "view-magnitude-1h",
+        "type": "view",
+        "attributes": {
+          "name": "Joystick Magnitude (1h Mean)",
+          "properties": {
+            "shape": "chronograf-v2",
+            "queries": [
+              {
+                "text": "from(bucket: \"sensor_data\")\n  |> range(start: -1h)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"joystick\")\n  |> filter(fn: (r) => r[\"_field\"] == \"magnitude\")\n  |> aggregateWindow(every: 5m, fn: mean, createEmpty: false)\n  |> yield(name: \"mean_1h\")",
+                "editMode": "advanced",
+                "name": "",
+                "builderConfig": {
+                  "buckets": [],
+                  "tags": [],
+                  "functions": []
+                }
+              }
+            ],
+            "axes": {
+              "x": {
+                "bounds": ["", ""],
+                "label": "",
+                "prefix": "",
+                "suffix": "",
+                "base": "10",
+                "scale": "linear"
+              },
+              "y": {
+                "bounds": ["", ""],
+                "label": "",
+                "prefix": "",
+                "suffix": "",
+                "base": "10",
+                "scale": "linear"
+              }
+            },
+            "type": "xy",
+            "legend": {},
+            "geom": "line"
+          }
+        }
+      },
+      {
+        "type": "cell",
+        "attributes": {
+          "x": 4,
+          "y": 4,
+          "w": 4,
+          "h": 4,
+          "name": "Joystick Magnitude (24h Mean)"
+        },
+        "relationships": {
+          "view": {
+            "data": {
+              "type": "view",
+              "id": "view-magnitude-24h"
+            }
+          }
+        }
+      },
+      {
+        "id": "view-magnitude-24h",
+        "type": "view",
+        "attributes": {
+          "name": "Joystick Magnitude (24h Mean)",
+          "properties": {
+            "shape": "chronograf-v2",
+            "queries": [
+              {
+                "text": "from(bucket: \"sensor_data\")\n  |> range(start: -24h)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"joystick\")\n  |> filter(fn: (r) => r[\"_field\"] == \"magnitude\")\n  |> aggregateWindow(every: 1h, fn: mean, createEmpty: false)\n  |> yield(name: \"mean_24h\")",
+                "editMode": "advanced",
+                "name": "",
+                "builderConfig": {
+                  "buckets": [],
+                  "tags": [],
+                  "functions": []
+                }
+              }
+            ],
+            "axes": {
+              "x": {
+                "bounds": ["", ""],
+                "label": "",
+                "prefix": "",
+                "suffix": "",
+                "base": "10",
+                "scale": "linear"
+              },
+              "y": {
+                "bounds": ["", ""],
+                "label": "",
+                "prefix": "",
+                "suffix": "",
+                "base": "10",
+                "scale": "linear"
+              }
+            },
+            "type": "xy",
+            "legend": {},
+            "geom": "line"
+          }
+        }
+      }
+    ]
+  }
+}
