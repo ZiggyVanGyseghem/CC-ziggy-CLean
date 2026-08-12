@@ -44,10 +44,10 @@ if %errorlevel% neq 0 (
 )
 
 echo.
-:: Auto-import dashboard into InfluxDB
+:: Auto-import dashboard template into InfluxDB
 echo [4/4] Auto-importing Sensor Gateway Dashboard into InfluxDB...
 timeout /t 4 /nobreak >nul
-docker exec influxdb influx apply -f /docker-entrypoint-initdb.d/dashboard.json --org sensorsim --token my-super-secret-auth-token --force yes >nul 2>&1
+docker exec influxdb influx apply -f /docker-entrypoint-initdb.d/template.yml --org sensorsim --token my-super-secret-auth-token --force yes >nul 2>&1
 
 echo.
 echo ==============================================================================

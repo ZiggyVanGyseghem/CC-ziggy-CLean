@@ -1,0 +1,60 @@
+apiVersion: influxdata.com/v2alpha1
+kind: Dashboard
+metadata:
+  name: sensor-gateway-dashboard
+spec:
+  name: Sensor Gateway Dashboard
+  description: Dashboard for sensor values and moving averages
+  charts:
+    - name: "Joystick Position (X/Y)"
+      type: "xy"
+      width: 6
+      height: 4
+      queries:
+        - query: |
+            from(bucket: "sensor_data")
+              |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+              |> filter(fn: (r) => r["_measurement"] == "joystick")
+              |> filter(fn: (r) => r["_field"] == "x" or r["_field"] == "y")
+              |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+              |> yield(name: "mean")
+    - name: "Button Presses"
+      type: "xy"
+      width: 6
+      height: 4
+      xPosition: 6
+      queries:
+        - query: |
+            from(bucket: "sensor_data")
+              |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+              |> filter(fn: (r) => r["_measurement"] == "buttons")
+              |> filter(fn: (r) => r["_field"] == "pressed_count")
+              |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
+              |> yield(name: "mean")
+    - name: "Joystick Magnitude (1h Mean)"
+      type: "xy"
+      width: 6
+      height: 4
+      yPosition: 4
+      queries:
+        - query: |
+            from(bucket: "sensor_data")
+              |> range(start: -1h)
+              |> filter(fn: (r) => r["_measurement"] == "joystick")
+              |> filter(fn: (r) => r["_field"] == "magnitude")
+              |> aggregateWindow(every: 5m, fn: mean, createEmpty: false)
+              |> yield(name: "mean_1h")
+    - name: "Joystick Magnitude (24h Mean)"
+      type: "xy"
+      width: 6
+      height: 4
+      xPosition: 6
+      yPosition: 4
+      queries:
+        - query: |
+            from(bucket: "sensor_data")
+              |> range(start: -24h)
+              |> filter(fn: (r) => r["_measurement"] == "joystick")
+              |> filter(fn: (r) => r["_field"] == "magnitude")
+              |> aggregateWindow(every: 1h, fn: mean, createEmpty: false)
+              |> yield(name: "mean_24h")

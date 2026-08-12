@@ -34,7 +34,7 @@ echo "============================================="
 echo "Auto-importing Sensor Gateway Dashboard into InfluxDB..."
 echo "============================================="
 sleep 4
-docker exec influxdb influx apply -f /docker-entrypoint-initdb.d/dashboard.json \
+docker exec influxdb influx apply -f /docker-entrypoint-initdb.d/template.yml \
   --org sensorsim \
   --token my-super-secret-auth-token \
   --force yes >/dev/null 2>&1 || true
