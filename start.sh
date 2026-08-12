@@ -16,9 +16,9 @@ fi
 echo "[OK] Docker is running."
 
 echo "============================================="
-echo "Building / Pulling container images..."
+echo "Building container images..."
 echo "============================================="
-docker compose build --pull
+docker compose build
 
 echo "============================================="
 echo "Stopping existing containers..."
@@ -29,15 +29,6 @@ echo "============================================="
 echo "Starting Edge Gateway stack in detached mode..."
 echo "============================================="
 docker compose up -d
-
-echo "============================================="
-echo "Auto-importing Sensor Gateway Dashboard into InfluxDB..."
-echo "============================================="
-sleep 4
-docker exec influxdb influx apply -f /docker-entrypoint-initdb.d/template.yml \
-  --org sensorsim \
-  --token my-super-secret-auth-token \
-  --force yes >/dev/null 2>&1 || true
 
 echo "============================================="
 echo "[SUCCESS] Deployment successful! Active containers:"

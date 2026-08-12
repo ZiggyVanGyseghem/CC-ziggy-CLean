@@ -1,6 +1,3 @@
 {
-  "$": "",
-  "influxdb_config": {
-    "token": "my-super-secret-auth-token"
-  }
+    "$": "5e4fc0a2ff06c767bd243efdacf1bbf41/YX3UWnxeiUMdahlljMlFmTa2xUR6GNRxuxXiA+f5F24lKa3nvY/wk/hfQe5BBuvD0jwt3cViZwTHorBux7a34eBiM3x9t6fpiRAC7AuRl+xwApZ1nY9Ngi0XOsnwsvhqkZ/ukEowxdWaV+hevNH+sIdn1GRnlmgwpg72QytAKjBSGxSCDmmt44fA/M8xHvxVOwvmAJnA2kFJ+iZ6T/GuL5gsZ9SjejCOuYtHgBV8gElXxCBcm7G9PBNatfbjhws1Wj/JpXUfty45F8Nr5NwYfpcHdL7hYthgg3Ptjo0IfYAj+UTFXtLdTK6d6dgQ=="
 }

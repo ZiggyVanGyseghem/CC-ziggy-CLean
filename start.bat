@@ -6,7 +6,7 @@ echo ===========================================================================
 echo.
 
 :: Check if Docker is installed and running
-echo [1/4] Checking Docker status...
+echo [1/3] Checking Docker status...
 docker info >nul 2>&1
 if %errorlevel% neq 0 (
     echo.
@@ -20,9 +20,9 @@ if %errorlevel% neq 0 (
 echo [OK] Docker is running.
 echo.
 
-:: Build and pull container images
-echo [2/4] Building and pulling container images...
-docker compose build --pull
+:: Build container images
+echo [2/3] Building container images...
+docker compose build
 if %errorlevel% neq 0 (
     echo.
     echo [ERROR] Failed to build containers. Please check Docker output above.
@@ -33,7 +33,7 @@ if %errorlevel% neq 0 (
 
 echo.
 :: Start containers
-echo [3/4] Starting Edge Gateway stack in background...
+echo [3/3] Starting Edge Gateway stack in background...
 docker compose up -d
 if %errorlevel% neq 0 (
     echo.
@@ -42,12 +42,6 @@ if %errorlevel% neq 0 (
     pause
     exit /b 1
 )
-
-echo.
-:: Auto-import dashboard template into InfluxDB
-echo [4/4] Auto-importing Sensor Gateway Dashboard into InfluxDB...
-timeout /t 4 /nobreak >nul
-docker exec influxdb influx apply -f /docker-entrypoint-initdb.d/template.yml --org sensorsim --token my-super-secret-auth-token --force yes >nul 2>&1
 
 echo.
 echo ==============================================================================
