@@ -1,4 +1,27 @@
+# Reference directories
 /original
-STATUS.md
+1original/
 
+# Documentation & internal status logs
+STATUS.md
 testing_guide.md
+
+# InfluxDB runtime data & CLI config state
+influxdb_data/
+influxdb_config/influx-configs
+
+# Mosquitto MQTT runtime logs and persistence data
+mosquitto/data/*
+!mosquitto/data/.gitkeep
+mosquitto/log/*
+!mosquitto/log/.gitkeep
+
+# Node-RED dependencies, cache, and backup files
+nodered_data/node_modules/
+nodered_data/.npm/
+nodered_data/*.backup
+
+# Operating system files & logs
+.DS_Store
+Thumbs.db
+*.log
