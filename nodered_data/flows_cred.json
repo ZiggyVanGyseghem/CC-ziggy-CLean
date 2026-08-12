@@ -1,0 +1,6 @@
+{
+  "$": "",
+  "influxdb_config": {
+    "token": "my-super-secret-auth-token"
+  }
+}
