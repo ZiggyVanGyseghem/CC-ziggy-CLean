@@ -31,13 +31,16 @@ echo "============================================="
 docker compose up -d
 
 echo "============================================="
-echo "Auto-importing Sensor Gateway Dashboard into InfluxDB..."
-echo "============================================="
-sleep 4
-docker exec influxdb influx apply -f /docker-entrypoint-initdb.d/template.yml \
-  --org sensorsim \
-  --token my-super-secret-auth-token \
-  --force yes >/dev/null 2>&1 || true
+if docker exec influxdb influx dashboards --org sensorsim --token my-super-secret-auth-token 2>/dev/null | grep -q "Sensor Gateway Dashboard"; then
+    echo "Sensor Gateway Dashboard is already loaded."
+else
+    echo "Auto-importing Sensor Gateway Dashboard into InfluxDB..."
+    sleep 4
+    docker exec influxdb influx apply -f /docker-entrypoint-initdb.d/template.yml \
+      --org sensorsim \
+      --token my-super-secret-auth-token \
+      --force yes >/dev/null 2>&1 || true
+fi
 
 echo "============================================="
 echo "[SUCCESS] Deployment successful! Active containers:"
