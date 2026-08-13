@@ -4,7 +4,7 @@ metadata:
   name: sensor-gateway-dashboard
 spec:
   name: Sensor Gateway Dashboard
-  description: Dashboard for sensor values and moving averages
+  description: Live edge gateway sensor values and moving averages
   charts:
     - name: "Joystick Position (X/Y)"
       type: "xy"
