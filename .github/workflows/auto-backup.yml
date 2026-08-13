@@ -9,6 +9,8 @@ jobs:
   backup:
     name: Backup Edge Gateway Configurations
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout Repository
