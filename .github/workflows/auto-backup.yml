@@ -1,0 +1,44 @@
+name: Automated GitHub Configuration & Stack Backup
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Automatically runs daily at midnight
+  workflow_dispatch: # Allows manual one-click backup trigger from GitHub UI
+
+jobs:
+  backup:
+    name: Backup Edge Gateway Configurations
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Validate Docker Compose Configuration
+        run: |
+          docker compose config --quiet
+          echo "[OK] Docker Compose syntax validated."
+
+      - name: Verify Core Stack Config Files
+        run: |
+          test -f docker-compose.yml || (echo "Missing docker-compose.yml" && exit 1)
+          test -f nodered_data/flows.json || (echo "Missing Node-RED flows" && exit 1)
+          test -f influxdb_setup/template.yml || (echo "Missing InfluxDB template" && exit 1)
+          echo "[OK] All core edge gateway configuration files present and verified."
+
+      - name: Create Automated Backup Snapshot
+        run: |
+          mkdir -p ci_backups
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          echo "Automated GitHub backup snapshot generated at ${TIMESTAMP}" > ci_backups/snapshot_${TIMESTAMP}.txt
+          cp nodered_data/flows.json ci_backups/flows_${TIMESTAMP}.json
+          cp influxdb_setup/template.yml ci_backups/template_${TIMESTAMP}.yml
+
+      - name: Commit and Sync Backup to GitHub
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add ci_backups/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(backup): automated daily GitHub stack configuration backup" && git push)

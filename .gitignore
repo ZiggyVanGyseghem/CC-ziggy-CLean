@@ -10,6 +10,9 @@ testing_guide.md
 influxdb_data/
 influxdb_config/influx-configs
 
+# Local automated backup dumps
+backups/
+
 # Mosquitto MQTT runtime logs and persistence data
 mosquitto/data/*
 !mosquitto/data/.gitkeep
