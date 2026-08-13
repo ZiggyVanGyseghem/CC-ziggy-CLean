@@ -1,46 +1,38 @@
-name: Automated GitHub Configuration & Stack Backup
+name: Automated Branch Backup Snapshot
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Automatically runs daily at midnight
+    - cron: '0 0 */2 * *' # Automatically runs every 2 days at midnight
   workflow_dispatch: # Allows manual one-click backup trigger from GitHub UI
 
 jobs:
-  backup:
-    name: Backup Edge Gateway Configurations
+  branch-backup:
+    name: Create Full Repository Branch Snapshot
     runs-on: ubuntu-latest
     permissions:
       contents: write
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Full Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Validate Docker Compose Configuration
-        run: |
-          docker compose config --quiet
-          echo "[OK] Docker Compose syntax validated."
-
-      - name: Verify Core Stack Config Files
-        run: |
-          test -f docker-compose.yml || (echo "Missing docker-compose.yml" && exit 1)
-          test -f nodered_data/flows.json || (echo "Missing Node-RED flows" && exit 1)
-          test -f influxdb_setup/template.yml || (echo "Missing InfluxDB template" && exit 1)
-          echo "[OK] All core edge gateway configuration files present and verified."
-
-      - name: Create Automated Backup Snapshot
-        run: |
-          mkdir -p ci_backups
-          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-          echo "Automated GitHub backup snapshot generated at ${TIMESTAMP}" > ci_backups/snapshot_${TIMESTAMP}.txt
-          cp nodered_data/flows.json ci_backups/flows_${TIMESTAMP}.json
-          cp influxdb_setup/template.yml ci_backups/template_${TIMESTAMP}.yml
-
-      - name: Commit and Sync Backup to GitHub
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Configure Git User
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add ci_backups/
-          git diff --quiet && git diff --staged --quiet || (git commit -m "chore(backup): automated daily GitHub stack configuration backup" && git push)
+
+      - name: Push Full Snapshot to Dedicated Backup Branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
+          echo "Creating full repository snapshot for date: ${TIMESTAMP}"
+          
+          # Create and update dedicated backup-snapshot branch with complete codebase state
+          git checkout -B backup-snapshot
+          git commit --allow-empty -m "backup: full repository snapshot for ${TIMESTAMP}"
+          git push origin backup-snapshot --force
+          
+          echo "[SUCCESS] Full repository snapshot pushed to branch 'backup-snapshot'!"
