@@ -4,93 +4,86 @@ metadata:
   name: sensor-gateway-dashboard
 spec:
   name: Sensor Gateway Dashboard
-  description: Live edge gateway sensor values and moving averages
+  description: Live edge gateway sensor values with numerical statistics
   charts:
+    - name: "Current Joystick X"
+      kind: Single_Stat
+      width: 4
+      height: 2
+      colors:
+        - hex: "#00C9FF"
+          id: base
+          name: pool
+          type: min
+      staticLegend: {}
+      queries:
+        - query: 'from(bucket: "sensor_data") |> range(start: -15m) |> filter(fn: (r) => r["_measurement"] == "joystick") |> filter(fn: (r) => r["_field"] == "x") |> last()'
+    - name: "Current Joystick Y"
+      kind: Single_Stat
+      width: 4
+      height: 2
+      xPos: 4
+      colors:
+        - hex: "#00C9FF"
+          id: base
+          name: pool
+          type: min
+      staticLegend: {}
+      queries:
+        - query: 'from(bucket: "sensor_data") |> range(start: -15m) |> filter(fn: (r) => r["_measurement"] == "joystick") |> filter(fn: (r) => r["_field"] == "y") |> last()'
+    - name: "Current Button Count"
+      kind: Single_Stat
+      width: 4
+      height: 2
+      xPos: 8
+      colors:
+        - hex: "#00C9FF"
+          id: base
+          name: pool
+          type: min
+      staticLegend: {}
+      queries:
+        - query: 'from(bucket: "sensor_data") |> range(start: -15m) |> filter(fn: (r) => r["_measurement"] == "buttons") |> filter(fn: (r) => r["_field"] == "value") |> last()'
     - name: "Joystick Position (X/Y)"
       kind: Xy
       geom: line
       width: 6
       height: 4
+      yPos: 2
       axes:
-        - name: x
-          base: "10"
+        - base: "10"
+          name: x
           scale: linear
-        - name: "y"
-          base: "10"
+        - base: "10"
+          name: "y"
           scale: linear
+      colors:
+        - hex: "#00C9FF"
+          id: base
+          name: pool
+          type: min
       staticLegend: {}
       queries:
-        - query: |-
-            from(bucket: "sensor_data")
-              |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
-              |> filter(fn: (r) => r["_measurement"] == "joystick")
-              |> filter(fn: (r) => r["_field"] == "x" or r["_field"] == "y")
-              |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
-              |> yield(name: "mean")
+        - query: 'from(bucket: "sensor_data") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r["_measurement"] == "joystick") |> filter(fn: (r) => r["_field"] == "x" or r["_field"] == "y") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false) |> yield(name: "mean")'
     - name: "Button Presses"
       kind: Xy
       geom: line
       width: 6
       height: 4
       xPos: 6
+      yPos: 2
       axes:
-        - name: x
-          base: "10"
+        - base: "10"
+          name: x
           scale: linear
-        - name: "y"
-          base: "10"
+        - base: "10"
+          name: "y"
           scale: linear
+      colors:
+        - hex: "#00C9FF"
+          id: base
+          name: pool
+          type: min
       staticLegend: {}
       queries:
-        - query: |-
-            from(bucket: "sensor_data")
-              |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
-              |> filter(fn: (r) => r["_measurement"] == "buttons")
-              |> filter(fn: (r) => r["_field"] == "pressed_count")
-              |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)
-              |> yield(name: "mean")
-    - name: "Joystick Magnitude (1h Mean)"
-      kind: Xy
-      geom: line
-      width: 6
-      height: 4
-      yPos: 4
-      axes:
-        - name: x
-          base: "10"
-          scale: linear
-        - name: "y"
-          base: "10"
-          scale: linear
-      staticLegend: {}
-      queries:
-        - query: |-
-            from(bucket: "sensor_data")
-              |> range(start: -1h)
-              |> filter(fn: (r) => r["_measurement"] == "joystick")
-              |> filter(fn: (r) => r["_field"] == "magnitude")
-              |> aggregateWindow(every: 5m, fn: mean, createEmpty: false)
-              |> yield(name: "mean_1h")
-    - name: "Joystick Magnitude (24h Mean)"
-      kind: Xy
-      geom: line
-      width: 6
-      height: 4
-      xPos: 6
-      yPos: 4
-      axes:
-        - name: x
-          base: "10"
-          scale: linear
-        - name: "y"
-          base: "10"
-          scale: linear
-      staticLegend: {}
-      queries:
-        - query: |-
-            from(bucket: "sensor_data")
-              |> range(start: -24h)
-              |> filter(fn: (r) => r["_measurement"] == "joystick")
-              |> filter(fn: (r) => r["_field"] == "magnitude")
-              |> aggregateWindow(every: 1h, fn: mean, createEmpty: false)
-              |> yield(name: "mean_24h")
+        - query: 'from(bucket: "sensor_data") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r["_measurement"] == "buttons") |> filter(fn: (r) => r["_field"] == "value") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false) |> yield(name: "mean")'
