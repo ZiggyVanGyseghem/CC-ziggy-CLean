@@ -1,6 +1,6 @@
 [default]
   url = "http://localhost:8086"
-  token = "6Bri4v7pny7uA_sGcxkNF3gOtScxlB9ODfiCUu0Dz7CmIik-5N-dP_dG21Ha4HXtgg2b50ccf3tL3wjp2g0oIg=="
+  token = "my-super-secret-auth-token"
   org = "sensorsim"
   active = true
 # 
