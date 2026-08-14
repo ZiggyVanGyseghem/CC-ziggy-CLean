@@ -2,9 +2,9 @@
 /original
 1original/
 
-# Documentation & internal status logs
+# Internal rating doc & status logs
+PROJECT_RATING_AND_IMPROVEMENTS.md
 STATUS.md
-testing_guide.md
 
 # InfluxDB runtime data & CLI config state
 influxdb_data/
