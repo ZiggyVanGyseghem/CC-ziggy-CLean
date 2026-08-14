@@ -23,16 +23,18 @@ This project implements a fully containerized **Edge Sensor Gateway Stack** for 
 ### Windows Execution
 - **Launch & Deploy Stack**: Double-click [`start.bat`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/start.bat)
 - **Create Backup**: Double-click [`backup.bat`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/backup.bat)
+- **Restore Backup**: Double-click [`restore.bat`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/restore.bat)
 - **Stop Stack**: Double-click [`stop.bat`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/stop.bat)
 
 ---
 
 ### Linux & WSL Execution
 ```bash
-chmod +x start.sh stop.sh backup.sh
+chmod +x start.sh stop.sh backup.sh restore.sh
 ./start.sh
 ```
 - **Configuration Backup**: `./backup.sh`
+- **Restore Backup**: `./restore.sh`
 - **Stop Stack**: `./stop.sh`
 
 ---
@@ -43,7 +45,7 @@ Once the stack is started, access management interfaces directly in your browser
 
 | Service | Access URL / Port | Default Credentials / Description |
 | :--- | :--- | :--- |
-| **Node-RED Flow Editor** | [http://localhost:1880](http://localhost:1880) | Visual flow canvas & validation nodes |
+| **Node-RED Flow Editor** | [http://localhost:3880](http://localhost:3880) | Visual flow canvas & validation nodes |
 | **InfluxDB Dashboard** | [http://localhost:8086](http://localhost:8086) | **User**: `admin`<br>**Password**: `adminpassword123`<br>**Org**: `sensorsim` |
 | **Portainer CE** | [http://localhost:9000](http://localhost:9000) | Container management & service logging |
 | **Mosquitto MQTT** | `localhost:10883` / `1883` | Topics: `sensor/controller/joystick`, `sensor/controller/buttons` |

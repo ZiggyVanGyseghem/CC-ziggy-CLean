@@ -16,7 +16,7 @@ services:
     container_name: nodered
     restart: unless-stopped
     ports:
-      - "${NODERED_HOST_PORT:-11880}:1880"
+      - "3880:1880"
     volumes:
       - ./nodered_data:/data
     depends_on:
