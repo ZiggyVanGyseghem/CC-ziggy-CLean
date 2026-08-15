@@ -21,10 +21,10 @@ This project implements a fully containerized **Edge Sensor Gateway Stack** for 
 ---
 
 ### Windows Execution
-- **Launch & Deploy Stack**: Double-click [`start.bat`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/start.bat)
-- **Create Backup**: Double-click [`backup.bat`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/backup.bat)
-- **Restore Backup**: Double-click [`restore.bat`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/restore.bat)
-- **Stop Stack**: Double-click [`stop.bat`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/stop.bat)
+- **Launch & Deploy Stack**: Double-click `start.bat`
+- **Create Backup**: Double-click `backup.bat`
+- **Restore Backup**: Double-click `restore.bat`
+- **Stop Stack**: Double-click `stop.bat`
 
 ---
 
@@ -59,8 +59,9 @@ Once the stack is started, access management interfaces directly in your browser
 
 For detailed technical specifications, architecture diagrams, testing procedures, and project reflection, see the dedicated documentation files:
 
-* [`TECHNICAL_DOCUMENTATION.md`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/TECHNICAL_DOCUMENTATION.md) - Deep-dive technical specifications, data flow diagrams, network topology, testing matrix, and CI/CD concepts.
-* [`REFLECTION.md`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/REFLECTION.md) - Student reflection and individual task breakdown.
-* [`docker-compose.yml`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/docker-compose.yml) - Container stack definition and `iot-network` bridge.
-* [`nodered_data/flows.json`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/nodered_data/flows.json) - Node-RED flow definitions and data validation nodes.
+* [`TECHNICAL_DOCUMENTATION.md`](TECHNICAL_DOCUMENTATION.md) - Deep-dive technical specifications, data flow diagrams, network topology, testing matrix, and CI/CD concepts.
+* [`REFLECTION.md`](REFLECTION.md) - Student reflection and individual task breakdown.
+* [`docker-compose.yml`](docker-compose.yml) - Container stack definition and `iot-network` bridge.
+* [`nodered_data/flows.json`](nodered_data/flows.json) - Node-RED flow definitions and data validation nodes.
+
 
