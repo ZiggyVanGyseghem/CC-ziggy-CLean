@@ -50,7 +50,7 @@ The stack is composed of 5 core container services defined in `docker-compose.ym
 | Service Name | Container Name | Host Port | Container Port | Purpose / Role | Persistent Volumes / Mounts |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Mosquitto** | `mosquitto` | `10883`, `9001` | `1883`, `9001` | Local MQTT Telemetry Broker | `./mosquitto/config`, `./mosquitto/data`, `./mosquitto/log` |
-| **Node-RED** | `nodered` | `11880` | `1880` | Data Ingestion, Range Validation & Filtering | `./nodered_data` |
+| **Node-RED** | `nodered` | `3880` | `1880` | Data Ingestion, Range Validation & Filtering | `./nodered_data` |
 | **Simulator** | `simulator` | Internal | N/A | Automated Field Sensor Generator (Python) | Built from `./simulator` |
 | **InfluxDB** | `influxdb` | `8086` | `8086` | Time-Series Database (InfluxDB v2.7) | `influxdb_data`, `./influxdb_setup` |
 | **Portainer** | `portainer` | `9000` | `9000` | Real-time Container Management UI | `/var/run/docker.sock`, `portainer_data` |
@@ -123,3 +123,4 @@ In an enterprise cloud/edge production environment, this workflow would be fully
 | **Payload Filtering** | Test invalid sensor payload drop | `docker exec -it mosquitto mosquitto_pub -t "sensor/controller/joystick" -m '{"x": 999, "y": 50}'` | Node-RED debug logs warning; message is dropped and NOT written to InfluxDB |
 | **Container Status** | Verify service health & bridge network | `docker compose ps` | All containers reported as `Up (healthy)` |
 | **Backup Integrity** | Test automated backup snapshot | Execute `backup.bat` or `./backup.sh` | Timestamped zip/tar file created in `./backups/` |
+| **Restore Verification** | Test data & flow restoration | Execute `restore.bat` or `./restore.sh` | InfluxDB buckets & Node-RED flows restored and containers restarted |

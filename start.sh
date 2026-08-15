@@ -49,7 +49,7 @@ docker compose ps
 
 echo ""
 echo "Accessible Web Dashboards:"
-echo "  - Node-RED Flow Editor:    http://localhost:1880"
+echo "  - Node-RED Flow Editor:    http://localhost:3880"
 echo "  - InfluxDB Dashboard:      http://localhost:8086"
 echo "  - Portainer Management:    http://localhost:9000"
 echo "  - MQTT Broker Port:        localhost:1883"
