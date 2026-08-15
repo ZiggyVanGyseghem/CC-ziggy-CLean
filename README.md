@@ -59,8 +59,8 @@ Once the stack is started, access management interfaces directly in your browser
 
 For detailed technical specifications, architecture diagrams, testing procedures, and project reflection, see the dedicated documentation files:
 
-* [`TECHNICAL_DOCUMENTATION.md`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/TECHNICAL_DOCUMENTATION.md) - Deep-dive technical specifications, data flow diagrams, network topology, and CI/CD concepts.
-* [`testing_guide.md`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/testing_guide.md) - Step-by-step verification guide for all evaluation criteria.
+* [`TECHNICAL_DOCUMENTATION.md`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/TECHNICAL_DOCUMENTATION.md) - Deep-dive technical specifications, data flow diagrams, network topology, testing matrix, and CI/CD concepts.
 * [`REFLECTION.md`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/REFLECTION.md) - Student reflection and individual task breakdown.
 * [`docker-compose.yml`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/docker-compose.yml) - Container stack definition and `iot-network` bridge.
 * [`nodered_data/flows.json`](file:///c:/Users/ziggy/Programssss/web%20apps/CC-ziggy-CLean/nodered_data/flows.json) - Node-RED flow definitions and data validation nodes.
+
