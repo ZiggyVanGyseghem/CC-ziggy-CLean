@@ -45,7 +45,7 @@ All services run inside isolated Docker containers connected via a dedicated int
 
 ## 2. Service Topology & Network Specifications
 
-The stack is composed of 5 core container services defined in `docker-compose.yml`:
+The stack is composed of 6 core container services defined in `docker-compose.yml`:
 
 | Service Name | Container Name | Host Port | Container Port | Purpose / Role | Persistent Volumes / Mounts |
 | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -54,6 +54,8 @@ The stack is composed of 5 core container services defined in `docker-compose.ym
 | **Simulator** | `simulator` | Internal | N/A | Automated Field Sensor Generator (Python) | Built from `./simulator` |
 | **InfluxDB** | `influxdb` | `8086` | `8086` | Time-Series Database (InfluxDB v2.7) | `influxdb_data`, `./influxdb_setup` |
 | **Portainer** | `portainer` | `9000` | `9000` | Real-time Container Management UI | `/var/run/docker.sock`, `portainer_data` |
+| **Watchtower** | `watchtower` | N/A | N/A | Automated Container Image Polling & Rollout | `/var/run/docker.sock` |
+
 
 ---
 
@@ -102,16 +104,23 @@ Node-RED ingests MQTT payloads and executes strict validation logic inside custo
 ## 4. Continuous Integration / Continuous Deployment (CI/CD)
 
 ### 4.1 Local Infrastructure Automation
-The primary startup scripts (`start.sh` and `start.bat`) demonstrate the core principles of automated infrastructure management without requiring manual container configuration. Executing either script automatically runs the following deployment cycle:
+The deployment scripts (`start.sh`, `start.bat`, and `Makefile`) demonstrate the core principles of automated infrastructure management without requiring manual container configuration. Executing `make deploy`, `./start.sh`, or `start.bat` automatically runs the following deployment cycle:
 1. **Container Image Build (`docker compose build`)**: Detects source code or configuration changes in custom services (`./nodered`, `./simulator`) and builds fresh service images.
 2. **Legacy Stack Teardown (`docker compose down`)**: Gracefully stops and prunes older running container instances to prevent port binding locks or stale state issues.
 3. **Stack Deployment (`docker compose up -d`)**: Launches the updated stack in background mode attached to the internal `iot-network` bridge.
 
-### 4.2 Production Pipeline Automation Concept
-In an enterprise cloud/edge production environment, this workflow would be fully automated using a remote CI/CD runner (such as GitHub Actions, GitLab CI, or Jenkins):
-* **Automated Build (CI)**: When a developer pushes a code update to the primary Git branch, the remote pipeline triggers, builds the container images, and executes automated verification tests.
-* **Image Registry Push**: Validated container images are pushed to a container registry (e.g., Docker Hub or GitHub Container Registry).
-* **Automated Rollout (CD)**: The pipeline connects to edge servers via SSH or webhook triggers to execute `docker compose pull && docker compose up -d`, deploying updated infrastructure automatically across edge hosts.
+### 4.2 Automated Continuous Deployment (Watchtower Integration)
+To demonstrate automated Continuous Deployment (CD), the stack includes **Watchtower** (`containrrr/watchtower:latest`).
+* **Role**: Watchtower monitors running Docker containers by accessing `/var/run/docker.sock`. It periodically polls image registries (configured via `WATCHTOWER_POLL_INTERVAL=300` seconds / 5 minutes).
+* **Automated Rollout**: When a new image tag is detected on a remote registry (e.g. Docker Hub or GitHub Container Registry for base images like `mosquitto`, `influxdb`, `portainer`), Watchtower automatically downloads the new image, gracefully stops the running container, and restarts it with the original volumes, networks, and environment variables.
+* **Image Cleanup**: Configured with `WATCHTOWER_CLEANUP=true` to automatically delete old container image layers after a successful rollout, keeping edge disk usage minimal.
+
+### 4.3 Enterprise CI/CD Pipeline Concept
+In an enterprise cloud/edge production environment, local scripts and Watchtower work together in a complete CI/CD pipeline:
+1. **Continuous Integration (CI)**: When developers push code to Git (e.g., updates to Node-RED flows or sensor simulator code), GitHub Actions builds the Docker images and runs automated unit tests.
+2. **Registry Push**: Validated container images are tagged (e.g., `ghcr.io/org/nodered:latest`) and pushed to GitHub Container Registry.
+3. **Continuous Deployment (CD)**: Watchtower running on the edge gateway detects the updated registry tag, pulls the new image, and updates the edge infrastructure automatically without requiring manual SSH access.
+
 
 ---
 

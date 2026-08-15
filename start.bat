@@ -59,11 +59,13 @@ echo ===========================================================================
 echo [SUCCESS] Edge Gateway Stack is live!
 echo ==============================================================================
 echo.
-echo Accessible Web Dashboards:
+echo Accessible Web Dashboards & Services:
 echo   - Node-RED Flow Editor:    http://localhost:3880
 echo   - InfluxDB Dashboard:      http://localhost:8086
 echo   - Portainer Management:    http://localhost:9000
+echo   - Watchtower CD Monitor:   Active (Automated Docker Updates)
 echo   - MQTT Broker Port:        localhost:1883
+
 echo.
 echo Active Containers:
 docker compose ps

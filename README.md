@@ -30,12 +30,16 @@ This project implements a fully containerized **Edge Sensor Gateway Stack** for 
 
 ### Linux & WSL Execution
 ```bash
+# Option A: Standard Shell Script
 chmod +x start.sh stop.sh backup.sh restore.sh
 ./start.sh
+
+# Option B: Makefile Automation (CI/CD)
+make deploy
 ```
-- **Configuration Backup**: `./backup.sh`
-- **Restore Backup**: `./restore.sh`
-- **Stop Stack**: `./stop.sh`
+- **Configuration Backup**: `./backup.sh` or `make backup`
+- **Restore Backup**: `./restore.sh` or `make restore`
+- **Stop Stack**: `./stop.sh` or `make down`
 
 ---
 
@@ -48,7 +52,9 @@ Once the stack is started, access management interfaces directly in your browser
 | **Node-RED Flow Editor** | [http://localhost:3880](http://localhost:3880) | Visual flow canvas & validation nodes |
 | **InfluxDB Dashboard** | [http://localhost:8086](http://localhost:8086) | **User**: `admin`<br>**Password**: `adminpassword123`<br>**Org**: `sensorsim` |
 | **Portainer CE** | [http://localhost:9000](http://localhost:9000) | Container management & service logging |
+| **Watchtower CD** | Background Daemon | Automated container polling (`5 min` interval) |
 | **Mosquitto MQTT** | `localhost:10883` / `1883` | Topics: `sensor/controller/joystick`, `sensor/controller/buttons` |
+
 
 ---
 
