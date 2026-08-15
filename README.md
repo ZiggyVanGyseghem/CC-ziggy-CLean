@@ -30,16 +30,13 @@ This project implements a fully containerized **Edge Sensor Gateway Stack** for 
 
 ### Linux & WSL Execution
 ```bash
-# Option A: Standard Shell Script
 chmod +x start.sh stop.sh backup.sh restore.sh
 ./start.sh
-
-# Option B: Makefile Automation (CI/CD)
-make deploy
 ```
-- **Configuration Backup**: `./backup.sh` or `make backup`
-- **Restore Backup**: `./restore.sh` or `make restore`
-- **Stop Stack**: `./stop.sh` or `make down`
+- **Configuration Backup**: `./backup.sh`
+- **Restore Backup**: `./restore.sh`
+- **Stop Stack**: `./stop.sh`
+
 
 ---
 

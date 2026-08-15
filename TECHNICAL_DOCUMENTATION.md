@@ -104,7 +104,8 @@ Node-RED ingests MQTT payloads and executes strict validation logic inside custo
 ## 4. Continuous Integration / Continuous Deployment (CI/CD)
 
 ### 4.1 Local Infrastructure Automation
-The deployment scripts (`start.sh`, `start.bat`, and `Makefile`) demonstrate the core principles of automated infrastructure management without requiring manual container configuration. Executing `make deploy`, `./start.sh`, or `start.bat` automatically runs the following deployment cycle:
+The deployment scripts (`start.sh` and `start.bat`) demonstrate the core principles of automated infrastructure management without requiring manual container configuration. Executing `./start.sh` or `start.bat` automatically runs the following deployment cycle:
+
 1. **Container Image Build (`docker compose build`)**: Detects source code or configuration changes in custom services (`./nodered`, `./simulator`) and builds fresh service images.
 2. **Legacy Stack Teardown (`docker compose down`)**: Gracefully stops and prunes older running container instances to prevent port binding locks or stale state issues.
 3. **Stack Deployment (`docker compose up -d`)**: Launches the updated stack in background mode attached to the internal `iot-network` bridge.
